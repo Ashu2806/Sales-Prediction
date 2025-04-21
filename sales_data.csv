@@ -1,0 +1,6 @@
+Product_ID,Store_ID,Advertisement_Spend,Promotion,Season,Previous_Sales,Sales
+P001,S01,10000,Yes,Winter,200,250
+P002,S02,5000,No,Summer,150,160
+P003,S01,12000,Yes,Spring,300,340
+P004,S03,4000,No,Autumn,100,120
+P005,S02,8000,Yes,Winter,220,260
