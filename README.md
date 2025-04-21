@@ -1,40 +1,44 @@
-# 📊 Sales Prediction Using Machine Learning
+# 🚗 Car Sales Price Prediction using Machine Learning
 
-## 🧠 Overview
-This project forecasts future product sales using historical data and machine learning techniques. The goal is to assist businesses in optimizing their marketing and promotional strategies to drive higher sales.
+This project predicts the **Amount Paid for a Car** based on customer attributes such as age, salary, credit card debt, and net worth using a machine learning model.
 
-## 📁 Project Structure
-- `data/`: Contains raw sales dataset.
-- `notebooks/`: Jupyter notebook with all the code from preprocessing to evaluation.
-- `visuals/`: Graphs and charts generated from analysis.
-- `models/`: (Optional) Saved ML models for reuse.
+---
 
-## 📌 Features Used
-- Advertisement Spend
-- Previous Sales
-- Promotion (Yes/No)
-- Season
-- Sales (Target)
+## 📊 Problem Statement
 
-## 🚀 Steps Involved
-1. **Data Preprocessing**: Handling missing values, encoding, scaling.
-2. **Model Training**: Linear Regression and Random Forest.
-3. **Evaluation**: MSE, RMSE, MAE, R² metrics.
-4. **Visualization**: Comparative bar and line charts for insights.
+**Objective**: Forecast the car purchase amount using historical customer data to support strategic sales and marketing decisions.
 
-## 📊 Model Comparison
-| Metric | Linear Regression | Random Forest |
-|--------|-------------------|----------------|
-| MSE    | *XX.XX*           | *XX.XX*        |
-| RMSE   | *XX.XX*           | *XX.XX*        |
-| MAE    | *XX.XX*           | *XX.XX*        |
-| R²     | *XX.XX*           | *XX.XX*        |
+---
 
-## 📈 Visualization Example
-![Model Performance](visuals/store_ad_spend_vs_sales.png)
+## 🧠 Techniques Used
 
-## 📦 Installation
+- Data Cleaning & Preprocessing  
+- Feature Scaling (StandardScaler)  
+- Random Forest Regression  
+- Model Evaluation (MAE, MSE, R² Score)  
+- Visualization (Matplotlib)
+
+---
+
+## 📁 Dataset
+
+- **Filename**: `car_purchasing.csv`  
+- **Source**: Provided locally (originally from Kaggle)  
+- **Encoding**: `ISO-8859-1` (to avoid UnicodeDecodeError)
+
+### Sample Features:
+
+| Age | Annual Salary | Credit Card Debt | Net Worth | Amount Paid |
+|-----|----------------|------------------|------------|--------------|
+| 45  | 48700          | 10000            | 200000     | 42000        |
+
+---
+
+## 🚀 How to Run
+
+1. Clone this repository  
+2. Make sure `car_purchasing.csv` is in the project folder  
+3. Run the Python script:
+
 ```bash
-git clone https://github.com/Ashu2806/Sales-Prediction-ML.git
-cd Sales-Prediction-ML
-pip install -r requirements.txt
+python main.py
