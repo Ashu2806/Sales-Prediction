@@ -1,61 +1,65 @@
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 
-# Create the DataFrame
-data = pd.DataFrame({
-    'Product_ID': ['P001', 'P002', 'P003', 'P004', 'P005'],
-    'Store_ID': ['S01', 'S02', 'S01', 'S03', 'S02'],
-    'Advertisement_Spend': [10000, 5000, 12000, 4000, 8000],
-    'Promotion': ['Yes', 'No', 'Yes', 'No', 'Yes'],
-    'Season': ['Winter', 'Summer', 'Spring', 'Autumn', 'Winter'],
-    'Previous_Sales': [200, 150, 300, 100, 220],
-    'Sales': [250, 160, 340, 120, 260]
-})
+# Step 1: Load the dataset
+df = pd.read_csv("car_purchasing.csv", encoding='ISO-8859-1')
 
-# Group by Store_ID to aggregate values
-grouped = data.groupby('Store_ID').agg({
-    'Advertisement_Spend': 'mean',
-    'Sales': 'sum'
-}).reset_index()
+# Step 2: Drop unused columns
+df = df.drop(['customer name', 'customer e-mail', 'country', 'gender'], axis=1)
 
-# Extract values for plotting
-stores = grouped['Store_ID']
-avg_spend = grouped['Advertisement_Spend']
-total_sales = grouped['Sales']
-x = np.arange(len(stores))
+# Step 3: Rename columns for consistency
+df.columns = ['Age', 'Annual_Salary', 'Credit_Card_Debt', 'Net_Worth', 'Amount_Paid']
 
-# Plotting
-fig, ax1 = plt.subplots(figsize=(10, 6))
+# Step 4: Define features and target
+X = df.drop(['Amount_Paid'], axis=1)
+y = df['Amount_Paid']
 
-# Bar chart for Average Advertisement Spend
-bar = ax1.bar(x, avg_spend, width=0.4, color='#4c72b0', label='Avg Advertisement Spend')
-ax1.set_ylabel('Average Advertisement Spend', color='#4c72b0', fontsize=12)
-ax1.set_xlabel('Store ID', fontsize=12)
-ax1.set_xticks(x)
-ax1.set_xticklabels(stores, fontsize=11)
-ax1.tick_params(axis='y', labelcolor='#4c72b0')
+# Step 5: Split the dataset
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# Bar labels
-for rect in bar:
-    height = rect.get_height()
-    ax1.annotate(f'{height:.0f}', xy=(rect.get_x() + rect.get_width()/2, height),
-                 xytext=(0, 5), textcoords="offset points", ha='center', fontsize=10, color='#4c72b0')
+# Step 6: Feature scaling
+scaler = StandardScaler()
+X_train_scaled = scaler.fit_transform(X_train)
+X_test_scaled = scaler.transform(X_test)
 
-# Line chart for Total Sales
-ax2 = ax1.twinx()
-line = ax2.plot(x, total_sales, color='#dd8452', marker='o', linewidth=2.5, label='Total Sales')
-ax2.set_ylabel('Total Sales', color='#dd8452', fontsize=12)
-ax2.tick_params(axis='y', labelcolor='#dd8452')
+# Step 7: Train the model
+model = RandomForestRegressor(n_estimators=100, random_state=42)
+model.fit(X_train_scaled, y_train)
 
-# Line labels
-for i, val in enumerate(total_sales):
-    ax2.annotate(str(val), xy=(x[i], val), xytext=(0, 8), textcoords="offset points",
-                 ha='center', fontsize=10, color='#dd8452', weight='bold')
+# Step 8: Predict
+y_pred = model.predict(X_test_scaled)
 
-# Title and legend
-plt.title('Store-wise Advertisement Spend vs Total Sales', fontsize=14, weight='bold')
-fig.legend(loc='upper center', bbox_to_anchor=(0.5, 1.08), ncol=2)
+# Step 9: Evaluate the model
+mae = mean_absolute_error(y_test, y_pred)
+mse = mean_squared_error(y_test, y_pred)
+r2 = r2_score(y_test, y_pred)
+
+print("Model Evaluation Metrics:")
+print(f"Mean Absolute Error (MAE): {mae:.2f}")
+print(f"Mean Squared Error (MSE): {mse:.2f}")
+print(f"R² Score: {r2:.2f}")
+
+# Step 10: Visualization – Salary vs. Purchase Amount
+df['Salary_Range'] = pd.cut(df['Annual_Salary'], bins=5)
+grouped = df.groupby('Salary_Range')['Amount_Paid'].mean().reset_index()
+
+plt.figure(figsize=(10, 6))
+bars = plt.bar(grouped['Salary_Range'].astype(str), grouped['Amount_Paid'], color='#4c72b0')
+plt.title('Average Amount Paid by Salary Range', fontsize=14, weight='bold')
+plt.xlabel('Annual Salary Range', fontsize=12)
+plt.ylabel('Average Amount Paid', fontsize=12)
+plt.xticks(rotation=45)
+
+# Add bar labels
+for bar in bars:
+    yval = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width()/2, yval + 5000, f'{yval:.0f}', ha='center', fontsize=10)
 
 plt.tight_layout()
+plt.savefig("amount_paid_by_salary_range.png")  # Saves the figure
 plt.show()
