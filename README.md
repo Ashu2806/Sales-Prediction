@@ -1,21 +1,40 @@
-# Sales Prediction Using Machine Learning
+# 📊 Sales Prediction Using Machine Learning
 
-## Project Overview
-This project aims to forecast product sales using historical sales data. We use machine learning techniques to analyze factors such as advertising spend, customer segmentation, and promotions to predict future sales. The goal is to build a model that helps businesses optimize marketing strategies for sales growth.
+## 🧠 Overview
+This project forecasts future product sales using historical data and machine learning techniques. The goal is to assist businesses in optimizing their marketing and promotional strategies to drive higher sales.
 
-## Dataset
-The dataset includes features such as:
-- **Sales**: The actual sales figure we aim to predict.
-- **Advertising Spend**: The amount spent on advertising.
-- **Customer Segment**: The segment of customers (e.g., age group, demographics).
-- **Promotions**: Whether there was a promotional event.
-- Additional features as required by your dataset.
+## 📁 Project Structure
+- `data/`: Contains raw sales dataset.
+- `notebooks/`: Jupyter notebook with all the code from preprocessing to evaluation.
+- `visuals/`: Graphs and charts generated from analysis.
+- `models/`: (Optional) Saved ML models for reuse.
 
-## Steps Involved
+## 📌 Features Used
+- Advertisement Spend
+- Previous Sales
+- Promotion (Yes/No)
+- Season
+- Sales (Target)
 
-### 1. **Data Loading and Exploration**
-We start by loading the dataset and performing initial exploration to understand the structure of the data and check for missing values.
+## 🚀 Steps Involved
+1. **Data Preprocessing**: Handling missing values, encoding, scaling.
+2. **Model Training**: Linear Regression and Random Forest.
+3. **Evaluation**: MSE, RMSE, MAE, R² metrics.
+4. **Visualization**: Comparative bar and line charts for insights.
 
-```python
-df = pd.read_csv(r'path_to_your_sales_data.csv')
-print(df.head())  # View first few rows of the dataset
+## 📊 Model Comparison
+| Metric | Linear Regression | Random Forest |
+|--------|-------------------|----------------|
+| MSE    | *XX.XX*           | *XX.XX*        |
+| RMSE   | *XX.XX*           | *XX.XX*        |
+| MAE    | *XX.XX*           | *XX.XX*        |
+| R²     | *XX.XX*           | *XX.XX*        |
+
+## 📈 Visualization Example
+![Model Performance](visuals/store_ad_spend_vs_sales.png)
+
+## 📦 Installation
+```bash
+git clone https://github.com/Ashu2806/Sales-Prediction-ML.git
+cd Sales-Prediction-ML
+pip install -r requirements.txt
